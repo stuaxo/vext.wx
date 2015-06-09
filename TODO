@@ -1,0 +1,4 @@
+Investigate different versions of WX...
+
+Possibly this needs to be aware of WX versions, maybe options passed to
+setup.py ?
