@@ -1,17 +1,24 @@
-import os
+import sys
+
+from glob import glob
+from os.path import abspath, dirname, join
 
 from distutils import sysconfig
 from setuptools import setup
 from setuptools.command.install import install
 
-here=os.path.dirname(os.path.abspath(__file__))
+here=dirname(abspath(__file__))
 site_packages_path = sysconfig.get_python_lib()
+vext_files = list(glob("*.vext"))
 
+def _post_install():
+    from vext.install import check_sysdeps
+    check_sysdeps(join(here, *vext_files))
 
 class CheckInstall(install):
     def run(self):
-        # TODO - massive memory leak happens here !
         self.do_egg_install()
+        self.execute(_post_install, [], msg="Check system dependencies:")
  
 long_description="""
 Allow use of system Wx in a virtualenv  
@@ -22,7 +29,7 @@ Currently only tested on Ubuntu.
 
 setup(
     name='vext.wx',
-    version='0.0.1',
+    version='0.4.2',
     description='Use system wx from a virtualenv',
     long_description=long_description,
 
@@ -57,10 +64,10 @@ setup(
     # What does your project relate to?
     keywords='virtualenv wx vext',
 
-    install_requires=["vext"],
+    install_requires=["vext>=0.4.2"],
 
     # Install pygtk vext
     data_files=[
-        (os.path.join(site_packages_path, 'vext/specs'), ['wx.vext'])
+        (join(sys.prefix, 'share/vext/specs'), vext_files),
     ],
 )

@@ -3,3 +3,9 @@ modules:
 
 pths:
     wx.pth
+
+test_import:
+    wx
+
+install_hints:
+    Wx was not found, install it in your system python.
