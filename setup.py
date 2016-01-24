@@ -3,8 +3,6 @@ info="""
 Allow use of system Wx from a virtualenv
 Should work on all platforms.
 
-Qt support is currently experimental.
-
 report bugs to https://github.com/stuaxo/vext
 """
 
